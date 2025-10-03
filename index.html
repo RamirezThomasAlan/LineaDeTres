@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Línea de 3</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LÍNEA DE 3</h1>
+        <p class="subtitle">Juega contra la máquina</p>
+        
+        <div class="game-info">
+            <div class="player-info">
+                <div>Jugador: <strong>X</strong></div>
+            </div>
+            <div class="ai-info">
+                <div>Máquina: <strong>O</strong></div>
+            </div>
+        </div>
+        
+        <div class="turn-indicator">
+            <div class="turn-dot active" id="player-turn"></div>
+            <div>Turno actual</div>
+            <div class="turn-dot" id="ai-turn"></div>
+        </div>
+        
+        <div class="message" id="message">Tu turno. ¡Buena suerte!</div>
+        
+        <div class="game-board" id="game-board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="reset-btn">Nuevo Juego</button>
+        </div>
+    </div>
+
+    <script src="./js/game.js"></script>
+</body>
+</html>

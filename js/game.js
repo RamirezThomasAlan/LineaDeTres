@@ -102,4 +102,107 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightWinningCells();
             return;
         }
+        
+        // Verificar empate
+        if (checkDraw()) {
+            messageElement.textContent = '¡Empate!';
+            gameActive = false;
+            return;
+        }
+        
+        // Cambiar turno al jugador
+        currentPlayer = 'X';
+        updateTurnIndicator();
+        messageElement.textContent = 'Tu turno';
+    }
+    
+    // Función para encontrar un movimiento ganador
+    function findWinningMove(player) {
+        for (let condition of winningConditions) {
+            const [a, b, c] = condition;
+            if (board[a] === player && board[b] === player && board[c] === '') {
+                return c;
+            }
+            if (board[a] === player && board[c] === player && board[b] === '') {
+                return b;
+            }
+            if (board[b] === player && board[c] === player && board[a] === '') {
+                return a;
+            }
+        }
+        return -1;
+    }
+    
+    // Función para realizar un movimiento
+    function makeMove(index, player) {
+        board[index] = player;
+        const cell = document.querySelector(`.cell[data-index="${index}"]`);
+        cell.textContent = player;
+        cell.classList.add(player.toLowerCase());
+        
+        // Animación de aparición
+        cell.style.transform = 'scale(0)';
+        setTimeout(() => {
+            cell.style.transform = 'scale(1)';
+        }, 10);
+    }
+    
+    // Función para verificar si hay un ganador
+    function checkWinner(player) {
+        for (let condition of winningConditions) {
+            const [a, b, c] = condition;
+            if (board[a] === player && board[b] === player && board[c] === player) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Función para verificar empate
+    function checkDraw() {
+        return board.every(cell => cell !== '');
+    }
+    
+    // Función para resaltar las celdas ganadoras
+    function highlightWinningCells() {
+        for (let condition of winningConditions) {
+            const [a, b, c] = condition;
+            if (board[a] !== '' && board[a] === board[b] && board[b] === board[c]) {
+                document.querySelector(`.cell[data-index="${a}"]`).classList.add('winning-cell');
+                document.querySelector(`.cell[data-index="${b}"]`).classList.add('winning-cell');
+                document.querySelector(`.cell[data-index="${c}"]`).classList.add('winning-cell');
+                break;
+            }
+        }
+    }
+    
+    // Función para actualizar el indicador de turno
+    function updateTurnIndicator() {
+        if (currentPlayer === 'X') {
+            playerTurnDot.classList.add('active');
+            aiTurnDot.classList.remove('active');
+        } else {
+            playerTurnDot.classList.remove('active');
+            aiTurnDot.classList.add('active');
+        }
+    }
+    
+    // Función para reiniciar el juego
+    function resetGame() {
+        board = ['', '', '', '', '', '', '', '', ''];
+        gameActive = true;
+        currentPlayer = 'X';
+        updateTurnIndicator();
+        messageElement.textContent = 'Tu turno. ¡Buena suerte!';
+        
+        cells.forEach(cell => {
+            cell.textContent = '';
+            cell.classList.remove('x', 'o', 'winning-cell');
+            cell.style.transform = 'scale(1)';
+        });
+    }
+    
+    // Añadir event listeners
+    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+    resetButton.addEventListener('click', resetGame);
 });
